@@ -9,10 +9,8 @@ Usage
 ```python
 >>> from plexapiplus import Account # wrapper for plexapi.myplex.MyPlexAccount
 >>> acc = Account() # pulling myplex_username/password from config.ini
->>> for server in acc.servers():
->>>   print(server)
+>>> for resource, server in acc.servers():
+>>>   print(resource, server)
 >>> 
-<MyPlexServerShare:12345678:Example>
-<MyPlexServerShare:23456:Example2>
-<MyPlexServerShare:123123:Example3>
+<MyPlexResource:Example> <PlexServer:https://127-0-0-1>
 ```
