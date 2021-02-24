@@ -56,3 +56,20 @@ class Account(MyPlexAccount):
 #            resource = hr.resource
 #            relay = [c.relay for c in resource.connections if c.relay is not None][0]
 #            yield (server, server.search(query, mediatype=mediatype, limit=limit))#, relay)
+
+    def getM3U8(self, items):
+        """ Returns a string representing a M3U8 playlist from a list of items. Each item must have .getStreamURL """
+        out = "#EXTM3U\n\n"
+        for item in items:
+            if not hasattr(item, "getStreamURL"):
+                continue
+            title = ""
+            try:
+                title = f"{item.grandparentTitle} {item.seasonEpisode} {item.title}"
+            except AttributeError:
+                try:
+                    title = f"{item.title} ({item.year})"
+                except AttributeError:
+                    title = f"{item.title}"
+            out += f"#EXTINF:-1,{title}\n{item.getStreamURL()}\n\n"
+        return out
